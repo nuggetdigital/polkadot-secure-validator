@@ -1,9 +1,12 @@
-provider "google" {
+provider "aws" {
   project     = var.state_project
   version     = "~>2.15"
 }
 
 terraform {
-  backend "gcs" {
+  backend "s3" {
+    bucket = "terraform-states"
+    key    = "zyzx.tfstate"
+    region = "us-east-1"
   }
 }

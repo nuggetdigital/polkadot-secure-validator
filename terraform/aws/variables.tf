@@ -1,17 +1,17 @@
 variable "state_project" {
-  default = "my_project"
+  default = "zyzx"
 }
 
 variable "project_id" {
-  default = "my_project"
+  default = "zyzx"
 }
 
 variable "location" {
-  default = "eu-central-1"
+  default = "us-east-1"
 }
 
 variable "zone" {
-  default = "eu-central-1a"
+  default = "us-east-1a"
 }
 
 variable "machine_type" {

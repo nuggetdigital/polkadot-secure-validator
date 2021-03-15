@@ -1,0 +1,49 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: aws setup for deployin substrate based nodes
+
+Resources:
+  Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: terraform-states
+
+  User:
+    Type: AWS::IAM::User
+    Properties:
+      Tags:
+        Stack: zyzx
+      Policies:
+        - PolicyName: zyzxSetup
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Sid: AllowFullEC2AndVPCAccess
+                Effect: Allow
+                Action: ec2:*
+                Resource: "*"
+
+              - Sid: AllowS3StateBucketAccess
+                Effect: Allow
+                Action: s3:ListBucket
+                Resource: !GetAtt Bucket.Arn
+
+              - Sid: AllowS3StateObjectAccess
+                Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:PutObject
+                Resource: !Sub ${Bucket.Arn}/
+
+  AccessKey:
+    Type: AWS::IAM::AccessKey
+    Properties:
+      Status: Active
+      UserName: !Ref User
+
+Outputs:
+  UserArn:
+    Value: !GetAtt User.Arn
+  AccessKeyId:
+    Value: !Ref AccessKey
+  SecretAccessKey:
+    Value: !GetAtt AccessKey.SecretAccessKey
