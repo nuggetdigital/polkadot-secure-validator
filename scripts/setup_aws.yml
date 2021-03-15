@@ -5,7 +5,7 @@ Resources:
   Bucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: terraform-remote-state
+      BucketName: zyzx-terraform-remote-state
 
   User:
     Type: AWS::IAM::User
