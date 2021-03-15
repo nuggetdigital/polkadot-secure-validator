@@ -132,7 +132,7 @@ class Terraform {
   }
 
   async _initCmd(backendConfig, options) {
-    await this._cmd(`init -var state_project=${this.config.state.project} -backend-config=bucket=${backendConfig.bucket} -backend-config=prefix=${backendConfig.prefix}`, options);
+    await this._cmd(`init -var state_project=${this.config.state.project}`, options);
   }
 
   async _initState(){
