@@ -1,10 +1,10 @@
 {
-  "name": "polkadot-secure-validator",
+  "name": "zyzx",
   "version": "3.3.0",
   "main": "src/index.js",
-  "repository": "https://github.com/w3f/polkadot-secure-validator",
-  "author": "W3F Infrastructure Team <devops@web3.foundation>",
-  "license": "GPL-3.0",
+  "repository": "https://github.com/nuggetdigital/polkadot-secure-validator",
+  "author": "0x1a3",
+  "license": "MIT",
   "scripts": {
     "test": "mocha --reporter spec --recursive",
     "sync": "node . sync",
@@ -12,7 +12,8 @@
     "plan": "node . plan",
     "update-binary": "node . update-binary",
     "lint": "eslint .",
-    "pretest": "yarn lint"
+    "pretest": "yarn lint",
+    "fmt": "npx prettier --no-semi --arrow-parens avoid --trailing-comma none --print-width 80 --write './src/**/*.js' './src/*.js'"
   },
   "bin": {
     "polkadot-secure-validator": "src/index.js"
@@ -37,5 +38,6 @@
     "eslint": "5.16.0",
     "mocha": "^6.2.0",
     "tmp": "^0.1.0"
-  }
+  },
+  "private": true
 }
