@@ -16,9 +16,9 @@ resource "aws_vpc" "main-{{ name }}" {
 }
 
 resource "aws_subnet" "main-{{ name }}" {
-  cidr_block = "${cidrsubnet(aws_vpc.main-{{ name }}.cidr_block, 3, 1)}"
+  cidr_block = cidrsubnet(aws_vpc.main-{{ name }}.cidr_block, 3, 1)
 
-  vpc_id = "${aws_vpc.main-{{ name }}.id}"
+  vpc_id = aws_vpc.main-{{ name }}.id
 
   availability_zone = var.zone
 
@@ -26,7 +26,7 @@ resource "aws_subnet" "main-{{ name }}" {
 }
 
 resource "aws_internet_gateway" "main-{{ name }}" {
-  vpc_id = "${aws_vpc.main-{{ name }}.id}"
+  vpc_id = aws_vpc.main-{{ name }}.id
 
   tags = {
     Name = "{{ name }}"
@@ -34,11 +34,11 @@ resource "aws_internet_gateway" "main-{{ name }}" {
 }
 
 resource "aws_route_table" "main-{{ name }}" {
-  vpc_id = "${aws_vpc.main-{{ name }}.id}"
+  vpc_id = aws_vpc.main-{{ name }}.id
 
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = "${aws_internet_gateway.main-{{ name }}.id}"
+    gateway_id = aws_internet_gateway.main-{{ name }}.id
   }
 
   tags = {
@@ -47,13 +47,13 @@ resource "aws_route_table" "main-{{ name }}" {
 }
 
 resource "aws_route_table_association" "main-{{ name }}" {
-  subnet_id      = "${aws_subnet.main-{{ name }}.id}"
-  route_table_id = "${aws_route_table.main-{{ name }}.id}"
+  subnet_id      = aws_subnet.main-{{ name }}.id
+  route_table_id = aws_route_table.main-{{ name }}.id
 }
 
 resource "aws_security_group" "main-{{ name }}" {
   name = "externalssh"
-  vpc_id = "${aws_vpc.main-{{ name }}.id}"
+  vpc_id = aws_vpc.main-{{ name }}.id
 }
 
 resource "aws_security_group_rule" "externalssh-{{ name }}" {
@@ -63,7 +63,7 @@ resource "aws_security_group_rule" "externalssh-{{ name }}" {
   protocol        = "tcp"
   cidr_blocks = ["0.0.0.0/0"]
 
-  security_group_id = "${aws_security_group.main-{{ name }}.id}"
+  security_group_id = aws_security_group.main-{{ name }}.id
 }
 
 resource "aws_security_group_rule" "p2p-{{ name }}" {
@@ -73,7 +73,7 @@ resource "aws_security_group_rule" "p2p-{{ name }}" {
   protocol        = "tcp"
   cidr_blocks = ["0.0.0.0/0"]
 
-  security_group_id = "${aws_security_group.main-{{ name }}.id}"
+  security_group_id = aws_security_group.main-{{ name }}.id
 }
 
 resource "aws_security_group_rule" "p2p-proxy-{{ name }}" {
@@ -83,7 +83,7 @@ resource "aws_security_group_rule" "p2p-proxy-{{ name }}" {
   protocol        = "tcp"
   cidr_blocks = ["0.0.0.0/0"]
 
-  security_group_id = "${aws_security_group.main-{{ name }}.id}"
+  security_group_id = aws_security_group.main-{{ name }}.id
 }
 
 resource "aws_security_group_rule" "vpn-{{ name }}" {
@@ -93,7 +93,7 @@ resource "aws_security_group_rule" "vpn-{{ name }}" {
   protocol        = "udp"
   cidr_blocks = ["0.0.0.0/0"]
 
-  security_group_id = "${aws_security_group.main-{{ name }}.id}"
+  security_group_id = aws_security_group.main-{{ name }}.id
 }
 
 resource "aws_security_group_rule" "node-exporter-{{ name }}" {
@@ -103,7 +103,7 @@ resource "aws_security_group_rule" "node-exporter-{{ name }}" {
   protocol        = "tcp"
   cidr_blocks = ["0.0.0.0/0"]
 
-  security_group_id = "${aws_security_group.main-{{ name }}.id}"
+  security_group_id = aws_security_group.main-{{ name }}.id
 }
 
 resource "aws_security_group_rule" "allow_all-{{ name }}" {
@@ -113,7 +113,7 @@ resource "aws_security_group_rule" "allow_all-{{ name }}" {
   protocol        = "-1"
   cidr_blocks = ["0.0.0.0/0"]
 
-  security_group_id = "${aws_security_group.main-{{ name }}.id}"
+  security_group_id = aws_security_group.main-{{ name }}.id
 }
 
 resource "aws_instance" "main-{{ name }}" {
@@ -122,8 +122,8 @@ resource "aws_instance" "main-{{ name }}" {
   key_name      = "{{ name }}"
   count         = var.node_count
 
-  subnet_id              = "${aws_subnet.main-{{ name }}.id}"
-  vpc_security_group_ids = ["${aws_security_group.main-{{ name }}.id}"]
+  subnet_id              = aws_subnet.main-{{ name }}.id
+  vpc_security_group_ids = [aws_security_group.main-{{ name }}.id]
 
   root_block_device {
     volume_size = 400
