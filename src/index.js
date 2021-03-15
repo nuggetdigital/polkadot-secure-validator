@@ -9,12 +9,11 @@ require('dotenv').config({path: path.resolve(process.cwd(), 'config/.env')});
 const clean = require('./lib/actions/clean');
 const sync = require('./lib/actions/sync');
 const plan = require('./lib/actions/plan');
-const version = require('./lib/version');
 const updateBinary = require('./lib/actions/updateBinary');
 
 
 program
-  .version(version.show());
+  .version(require("../package.json").version);
 
 program
   .command('sync')
