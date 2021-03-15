@@ -11,7 +11,8 @@ Resources:
     Type: AWS::IAM::User
     Properties:
       Tags:
-        Stack: zyzx
+        - Key: Stack
+          Value: zyzx-setup
       Policies:
         - PolicyName: zyzxSetup
           PolicyDocument:
