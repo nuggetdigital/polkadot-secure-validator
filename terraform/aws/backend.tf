@@ -1,11 +1,12 @@
 provider "aws" {
   project     = var.state_project
-  version     = "~>2.15"
+  region = "us-east-1"
 }
 
 terraform {
   backend "s3" {
-    bucket = "terraform-states"
+    encrypt = true
+    bucket = "terraform-remote-state"
     key    = "zyzx.tfstate"
     region = "us-east-1"
   }

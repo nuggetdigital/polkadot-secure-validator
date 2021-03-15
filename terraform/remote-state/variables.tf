@@ -1,7 +1,7 @@
 variable "state_project" {
-  default = "my_project"
+  default = "zyzx"
 }
 
 variable "name" {
-  default = "my_name"
+  default = "node"
 }
