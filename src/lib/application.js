@@ -1,6 +1,5 @@
 const { Ansible } = require('./clients/ansible');
 
-
 class Application {
   constructor(cfg, platformResult={}) {
     const ansibleCfg = JSON.parse(JSON.stringify(cfg));

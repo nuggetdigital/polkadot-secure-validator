@@ -1,6 +1,4 @@
-const asyncUtils = require('./async.js');
 const { Terraform } = require('./clients/terraform');
-
 
 class Platform {
   constructor(cfg) {
@@ -32,11 +30,13 @@ class Platform {
   }
 
   async _extractOutput(type, nodeSet) {
-    const output = [];
-    await asyncUtils.forEach(nodeSet, async (node, index) => {
-      const ipAddress = await this.tf.nodeOutput(type, index, 'ip_address');
-      output.push(JSON.parse(ipAddress.toString()));
-    });
+    const self = this
+
+    const output = await Promise.all(nodeSet.map(async(node, i)=>{
+      const ipAddress = await self.tf.nodeOutput(type, i, 'ip_address')
+      return JSON.parse(ipAddress.toString())
+    }))
+
     return output;
   }
 

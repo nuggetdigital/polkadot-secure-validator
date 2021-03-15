@@ -1,6 +1,4 @@
-const { Buffer } = require('buffer');
 const { spawn } = require('child_process');
-
 
 module.exports = {
   splitCommandAndArgs: function (command) {

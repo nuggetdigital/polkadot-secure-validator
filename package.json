@@ -7,7 +7,7 @@
   "license": "GPL-3.0",
   "scripts": {
     "test": "mocha --reporter spec --recursive",
-    "sync": "node . sync -c ./config/main.json",
+    "sync": "node . sync",
     "clean": "node . clean",
     "plan": "node . plan",
     "update-binary": "node . update-binary",

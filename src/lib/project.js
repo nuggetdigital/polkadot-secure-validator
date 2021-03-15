@@ -1,7 +1,6 @@
 const ospath = require('ospath');
 const path = require('path');
 
-
 class Project {
   constructor(cfg) {
     this.name = cfg.project;

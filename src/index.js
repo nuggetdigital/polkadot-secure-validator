@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const path = require('path');
-const process = require('process');
+
 const program = require('commander');
 require('dotenv').config({path: path.resolve(process.cwd(), '.env')});
 require('dotenv').config({path: path.resolve(process.cwd(), 'config/.env')});
@@ -10,7 +10,6 @@ const clean = require('./lib/actions/clean');
 const sync = require('./lib/actions/sync');
 const plan = require('./lib/actions/plan');
 const updateBinary = require('./lib/actions/updateBinary');
-
 
 program
   .version(require("../package.json").version);
