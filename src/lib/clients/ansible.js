@@ -55,20 +55,6 @@ class Ansible {
     const polkadotAdditionalValidatorFlags = this.config.validators
       .additionalFlags
 
-    let publicNodes = []
-    let publicTelemetryUrl = ""
-    let publicLoggingFilter = ""
-    let polkadotAdditionalPublicFlags = ""
-    if (this.config.publicNodes) {
-      publicNodes = this._genTplNodes(
-        this.config.publicNodes,
-        validators.length
-      )
-      publicTelemetryUrl = this.config.publicNodes.telemetryUrl
-      publicLoggingFilter = this.config.publicNodes.loggingFilter
-      polkadotAdditionalPublicFlags = this.config.publicNodes.additionalFlags
-    }
-
     const data = {
       project: this.config.project,
 
@@ -78,19 +64,15 @@ class Ansible {
       polkadotNetworkId: this.config.polkadotNetworkId || "ksmcc2",
 
       validators,
-      publicNodes,
 
       validatorTelemetryUrl,
-      publicTelemetryUrl,
 
       validatorLoggingFilter,
-      publicLoggingFilter,
 
       buildDir,
 
       polkadotAdditionalCommonFlags: this.config.additionalFlags,
-      polkadotAdditionalValidatorFlags,
-      polkadotAdditionalPublicFlags
+      polkadotAdditionalValidatorFlags
     }
     if (this.config.nodeExporter && this.config.nodeExporter.enabled) {
       data.nodeExporterEnabled = true

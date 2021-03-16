@@ -10,15 +10,13 @@ class Platform {
   async sync() {
     await this.tf.sync("apply")
     const validatorIpAddresses = await this._getValidatorIpAddresses()
-    const publicNodesIpAddresses = await this._getPublicNodesIpAddresses()
-    return { validatorIpAddresses, publicNodesIpAddresses }
+    return { validatorIpAddresses }
   }
 
   async output() {
     await this.tf.initNodes()
     const validatorIpAddresses = await this._getValidatorIpAddresses()
-    const publicNodesIpAddresses = await this._getPublicNodesIpAddresses()
-    return { validatorIpAddresses, publicNodesIpAddresses }
+    return { validatorIpAddresses }
   }
 
   async plan() {
@@ -44,16 +42,6 @@ class Platform {
 
   async _getValidatorIpAddresses() {
     return await this._extractOutput("validator", this.config.validators.nodes)
-  }
-
-  async _getPublicNodesIpAddresses() {
-    if (this.config.publicNodes) {
-      return await this._extractOutput(
-        "publicNode",
-        this.config.publicNodes.nodes
-      )
-    }
-    return []
   }
 }
 

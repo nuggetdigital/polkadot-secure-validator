@@ -13,17 +13,6 @@ class Application {
         platformResult.validatorIpAddresses[counter]
     }
 
-    if (ansibleCfg.publicNodes) {
-      for (
-        let counter = 0;
-        counter < ansibleCfg.publicNodes.nodes.length;
-        counter++
-      ) {
-        ansibleCfg.publicNodes.nodes[counter].ipAddresses =
-          platformResult.publicNodesIpAddresses[counter]
-      }
-    }
-
     this.ansible = new Ansible(ansibleCfg)
   }
 

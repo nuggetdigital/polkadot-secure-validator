@@ -27,8 +27,6 @@ class Terraform {
 
   async initNodes() {
     await this._initNodes("validator", this.config.validators.nodes)
-    this.config.publicNodes &&
-      (await this._initNodes("publicNode", this.config.publicNodes.nodes))
   }
 
   async sync(method = "apply") {
@@ -53,52 +51,17 @@ class Terraform {
       console.log(`Could not get validator sync promises: ${e.message}`)
     }
 
-    let publicNodeSyncPromises = []
-    if (this.config.publicNodes) {
-      try {
-        publicNodeSyncPromises = await this._create(
-          "publicNode",
-          sshKeys.publicNodePublicKey,
-          this.config.publicNodes.nodes,
-          method
-        )
-      } catch (e) {
-        console.log(`Could not get publicNodes sync promises: ${e.message}`)
-      }
-    }
-    const syncPromises = validatorSyncPromises.concat(publicNodeSyncPromises)
+    const syncPromises = validatorSyncPromises
 
     return Promise.all(syncPromises)
   }
 
   async clean() {
     this._initializeTerraform()
-    let validatorCleanPromises = []
-    try {
-      validatorCleanPromises = await this._destroy(
-        "validator",
-        this.config.validators.nodes
-      )
-    } catch (e) {
-      console.log(`Could not get validator clean promises: ${e.message}`)
-    }
 
-    let publicNodesCleanPromises = []
-    if (this.config.publicNodes) {
-      try {
-        publicNodesCleanPromises = await this._destroy(
-          "publicNode",
-          this.config.publicNodes.nodes
-        )
-      } catch (e) {
-        console.log(`Could not get publicNodes clean promises: ${e.message}`)
-      }
-    }
-    const cleanPromises = validatorCleanPromises.concat(
-      publicNodesCleanPromises
+    return Promise.all(
+      await this._destroy("validator", this.config.validators.nodes)
     )
-
-    return Promise.all(cleanPromises)
   }
 
   nodeOutput(type, counter, outputField) {
@@ -219,20 +182,6 @@ class Terraform {
         counter,
         this.config.validators.nodes[counter].provider
       )
-    }
-
-    if (this.config.publicNodes) {
-      for (
-        let counter = 0;
-        counter < this.config.publicNodes.nodes.length;
-        counter++
-      ) {
-        this._copyTerraformFiles(
-          "publicNode",
-          counter,
-          this.config.publicNodes.nodes[counter].provider
-        )
-      }
     }
   }
 

@@ -42,6 +42,7 @@ program
 program.allowUnknownOption(false)
 
 const parsed = program.parse(process.argv)
+
 if (
   !parsed ||
   !(
